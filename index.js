@@ -14,10 +14,11 @@ const hypercrush = module.exports = {
    * @returns {string} - The transformed input.
    */
   code: input => input
-    .replace(/\s+/g, ' ') // Collapse all whitespace (newlines, tabs, multiple spaces) into a single space
-    .replace(/>\s+</g, '><') // Remove spaces between tags - Gotcha: Can't rely on whitespace between tags for styling
-    .replace(/(\w+)="([^"\s]+)"/g, (m, k, v) => `${k}=${v}`) // Remove " around attrs where possible
-    .replace(/<(\w+)([^>]*)\s*\/?>/g, (m, t, a) => `<${t}${a.replace(/\s+(?=\w+=")/g, '')}>`) // Remove spaces after " in tags
+    .replace(/\s+/g, ' ') // Collapse all whitespace into a single space
+    .replace(/>\s+</g, '><') // Remove spaces between tags
+    .replace(/(\w+)="([^"\s<>]+)"/g, '$1=$2') // Remove unnecessary quotes around attribute values
+    .replace(/"(\s+)(?=\w+=)/g, '"') // Remove spaces **after** a closing quote before an attribute
+    .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
   ,
 
   /**
