@@ -1,6 +1,5 @@
 declare module 'hypercrush' {
   export interface HyperCrushOptions {
-
   }
 
   export function code(code: string): string;

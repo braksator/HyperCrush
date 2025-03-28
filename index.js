@@ -27,11 +27,11 @@ const hypercrush = module.exports = {
    */
   file: async (inputFile, outputFile) => {
     try {
-      await fs.writeFile(outputFile, hypercrush.hypercrushCode(await fs.readFile(inputFile, 'utf8'), opts), 'utf8');
-      console.log(`✅ hypercrush processed: ${outputFile}`);
+      await fs.writeFile(outputFile, hypercrush.code(await fs.readFile(inputFile, 'utf8'), opts), 'utf8');
+      console.log(`✅ HyperCrush processed: ${outputFile}`);
     }
     catch (error) {
-      console.error('❌ hypercrush Error:', error);
+      console.error('❌ HyperCrush Error:', error);
     }
   },
 
@@ -48,7 +48,7 @@ const hypercrush = module.exports = {
         if (file.isNull()) return cb(null, file);
         if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
         try {
-          file.contents = Buffer.from(hypercrush.hypercrushCode(file.contents.toString(), opts));
+          file.contents = Buffer.from(hypercrush.code(file.contents.toString(), opts));
           cb(null, file);
         }
         catch (err) {
