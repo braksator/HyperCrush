@@ -18,6 +18,8 @@ Output:
 <div id=myId class="big blue"data-toggle=true><em>Some "text" here</em></div>
 ```
 
+👉 NOTE THE SAVINGS!!! ✔️
+
 > Gotcha: Now you can't rely on *whitespace between tags* for styling.
 
 
