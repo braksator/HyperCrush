@@ -14,7 +14,6 @@
 module.exports = (mode = 'default') => {
   let { Transform } = require('stream'), PluginError = require('plugin-error');
   const PLUGIN_NAME = 'gulp-hypercrush';
-  opts = { ...{ html: [], inline: 0, appendExt: 1 }, ...opts };
   return new Transform({
     objectMode: true,
     transform(file, _, cb) {
