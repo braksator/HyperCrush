@@ -3,7 +3,7 @@
 HyperCrush
 ========================
 
-Crushes HTML or SVG code.  Code can be raw markup, or it can be Javascript that happens to contain quotes markup within.
+Crushes HTML or SVG code.  Code can be raw markup, or it can be Javascript that happens to contain quoted markup within.
 It should be used in conjunction with your html-minifier and your JS minifier/terser.  This module doesn't do everything, it just squeezes a bit more out.
 
 > Why? Standard minifiers don't quite finesse like this!
