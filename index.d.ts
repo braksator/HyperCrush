@@ -1,8 +1,7 @@
-declare module 'hypercrush' {
-  export interface HyperCrushOptions {
-  }
-
-  export function code(code: string): string;
-  export function file(inputFile: string, outputFile: string): void;
-  export function gulp(): any;
+export interface HyperCrushOptions {
+  mode?: string;
 }
+
+declare function HyperCrush(opts?: HyperCrushOptions): NodeJS.ReadWriteStream;
+
+export = HyperCrush;

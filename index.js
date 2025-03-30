@@ -3,71 +3,45 @@
 
 /**
  * @file
- * hypercrush - Crushes HTML or SVG code.
+ * HyperCrush - Crushes HTML or SVG code.
  */
 
-const hypercrush = module.exports = {
-
-  /**
-   * Processes input string to crush HTML or SVG contained within.
-   * @param {string} input - The input code as a string.
-   * @returns {string} - The transformed input.
-   */
-  code: input => input
-    .replace(/\s+/g, ' ') // Collapse all whitespace into a single space
-    .replace(/>\s+</g, '><') // Remove spaces between tags
-    .replace(/(\w+)="([^"\s<>]+)"/g, '$1=$2') // Remove unnecessary quotes around attribute values
-    .replace(/"(\s+)(?=\w+=)/g, '"') // Remove spaces **after** a closing quote before an attribute
-    .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
-  ,
-
-  /**
-   * CLI function to process files.
-   * @param {string} inputFile - Input JS file path.
-   * @param {string} outputFile - Output JS file path.
-   */
-  file: async (inputFile, outputFile) => {
-    try {
-      await fs.writeFile(outputFile, hypercrush.code(await fs.readFile(inputFile, 'utf8'), opts), 'utf8');
-      console.log(`✅ HyperCrush processed: ${outputFile}`);
-    }
-    catch (error) {
-      console.error('❌ HyperCrush Error:', error);
-    }
-  },
-
-  /**
-   * Gulp-compatible transform stream.
-   * @returns {Transform} - A transform stream for Gulp.
-   */
-  gulp: () => {
-    let { Transform } = require('stream'), PluginError = require('plugin-error');
-    const PLUGIN_NAME = 'gulp-hypercrush';
-    return new Transform({
-      objectMode: true,
-      transform(file, _, cb) {
-        if (file.isNull()) return cb(null, file);
-        if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
-        try {
-          file.contents = Buffer.from(hypercrush.code(file.contents.toString(), opts));
-          cb(null, file);
+/**
+ * Gulp-compatible transform stream.
+ * @param {string} mode - (optional) The mode to operate in.
+ * @returns {Transform} - A transform stream for Gulp.
+ */
+module.exports = (mode = 'default') => {
+  let { Transform } = require('stream'), PluginError = require('plugin-error');
+  const PLUGIN_NAME = 'gulp-hypercrush';
+  opts = { ...{ html: [], inline: 0, appendExt: 1 }, ...opts };
+  return new Transform({
+    objectMode: true,
+    transform(file, _, cb) {
+      if (file.isNull()) return cb(null, file);
+      if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
+      try {
+        let code = file.contents.toString();
+        if (mode == 'whitespace' || mode == 'all') {
+          code = code
+            .replace(/\s+/g, ' ').trim(); // Remove redundant whitespace
         }
-        catch (err) {
-          cb(new PluginError(PLUGIN_NAME, err));
+        if (mode == 'default' || mode == 'all') {
+          code = code
+            .replace(/(<\w+[^>]*\b\w+=['"]?)0\.(\d)/g, '$1.$2') // Remove leading zero for decimals in attribute values inside tags
+            .replace(/>\s+</g, '><') // Remove spaces between tags - Gotcha: Can't rely on whitespace between tags for styling
+            .replace(/(?<=<[^>]+)\s+(?=>)/g, '') // Remove space before > in tags
+            .replace(/(\w+)="([^"\s]+)(?="(?!\/>))"/g, (m, k, v) => `${k}=${v}`) // Remove " around attrs where possible (but not if followed by self-close)
+            .replace(/"\s+(?=\s*[\w-]+=|\s*\/?>)/g, '"') // Remove spaces **after** a closing quote (but not if followed by self-close)
+            .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
+            .replace(/\s*(["']?)\s*\/>/g, '$1/>'); // Remove extra space at end of self-closing tags
         }
+        file.contents = Buffer.from(code);
+        cb(null, file);
       }
-    });
-  }
+      catch (err) {
+        cb(new PluginError(PLUGIN_NAME, err, { fileName: file.path }));
+      }
+    }
+  })
 };
-
-// CLI Usage
-if (require.main === module) {
-  var args = process.argv.slice(2), opts = {};
-  // Ensure the arguments are correct
-  if (args.length < 2) {
-    console.log("Usage: hypercrush <inputfile> <outputfile>");
-    process.exit(1);
-  }
-  // Pass options along with input and output file paths
-  hypercrush.hypercrushFile(args[0], args[1], opts);
-}
