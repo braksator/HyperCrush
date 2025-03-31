@@ -22,6 +22,7 @@ Output:
 
 > Gotcha: Now you can't rely on *whitespace between tags* for styling.
 
+(If you'd like to optimize and deduplicate multiple SVG files see [JCrush SVG](https://www.npmjs.com/package/jcrushsvg))
 
 ## Installation
 
