@@ -10,12 +10,12 @@ It should be used in conjunction with your html-minifier and your JS minifier/te
 
 Input:
 ```
-<div id="myId" class="big blue" data-val="0.2"> <em>Some "text" here</em> </div>
+<div id="myId" class="big blue" data-val="0.2"> Some <em> "text" here </em> </div>
 ```
 
 Output:
 ```
-<div id=myId class="big blue"data-val=.2><em>Some "text" here</em></div>
+<div id=myId class="big blue"data-val=.2>Some <em>"text" here</em></div>
 ```
 
 👉 NOTE THE SAVINGS!!! ✔️
