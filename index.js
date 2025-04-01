@@ -62,7 +62,7 @@ module.exports = (mode = 'default') => {
       if (file.isNull()) return cb(null, file);
       if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
       try {
-        file.contents = Buffer.from(hypercrushCode(file.contents.toString()));
+        file.contents = Buffer.from(hypercrushCode(file.contents.toString(), mode));
         cb(null, file);
       }
       catch (err) {
