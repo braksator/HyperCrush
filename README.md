@@ -22,7 +22,13 @@ Output:
 
 > Gotcha: Now you can't rely on *whitespace between tags* for styling.
 
+🔥 [Try an online demo](http://braksator.github.io/hypercrush)
+
 (If you'd like to optimize and deduplicate multiple SVG files see [JCrush SVG](https://www.npmjs.com/package/jcrushsvg))
+
+## Stand-alone usage
+
+See online demo link above, or [download project zip file](https://github.com/braksator/HyperCrush/releases/) and open index.html to use the GUI.
 
 ## Installation
 
