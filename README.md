@@ -90,7 +90,7 @@ gulp.task('svg', function () {
 
 ## `mode` Parameter
 
-The `mode` parameter controls the optimizations applied to the input files. It can be set to `'default'`, `'whitespace'`, or `'all'`.
+The `mode` parameter controls the optimizations applied to the input files. It can be set to `'default'`, `'whitespace'`, or `'all'`.  There is also a bonus `'svg'` mode available.
 
 ## Available Modes
 

@@ -1,6 +1,6 @@
 {
   "name": "hypercrush",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "Crushes HTML or SVG code.",
   "main": "index.js",
   "types": "index.d.ts",
