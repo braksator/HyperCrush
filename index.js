@@ -39,6 +39,7 @@ function hypercrushCode(code, mode = 'all') {
       .replace(/\s*xml:space="preserve"*/g, '') // Remove xml:space attr
       .replace(/\s*enable-background="[^"]*"/g, '') // Remove enable-background attr
       .replace(/\b0\./g, '.') // Remove ALL leading zeros for decimal numbers
+    code = hypercrushCode(code, 'all'); // Run an 'all' pass.
   }
   return code;
 }

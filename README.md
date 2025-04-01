@@ -77,13 +77,12 @@ For **plain HTML**, add an 'all` pass AFTER your minifier:
 
 ```
 
-For **SVG Files** do an `svg` pass AND and then an `all` pass:
+For **SVG Files** do an `svg` pass:
 
 ```javascript
 gulp.task('svg', function () {
   return gulp.src('./src/img/svg/*.svg')
     .pipe(hypercrush('svg'))
-    .pipe(hypercrush('all'))
     .pipe(gulp.dest('./img/svg'));
 });
 ```
@@ -110,7 +109,7 @@ The `mode` parameter controls the optimizations applied to the input files. It c
 - Includes all optimizations from `whitespace` and `default`.
 
 ### **`svg`**
-- Specific optimizations for stripping SVG files.  It is recommended to also run an `all` pass afterwards.
+- Specific optimizations for stripping SVG files.
 
 
 ---
