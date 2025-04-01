@@ -77,7 +77,7 @@ For **plain HTML**, add an 'all` pass AFTER your minifier:
 
 ```
 
-For **SVG Files** do an `svg` pass:
+For **SVG** do an `svg` pass:
 
 ```javascript
 gulp.task('svg', function () {
@@ -86,6 +86,7 @@ gulp.task('svg', function () {
     .pipe(gulp.dest('./img/svg'));
 });
 ```
+Note: The SVG code will now only work embeded into the HTML DOM, not in an IMG tag or as a stand-alone file.
 
 ## `mode` Parameter
 
@@ -109,7 +110,8 @@ The `mode` parameter controls the optimizations applied to the input files. It c
 - Includes all optimizations from `whitespace` and `default`.
 
 ### **`svg`**
-- Specific optimizations for stripping SVG files.
+- Specific optimizations for extracting the SVG tag, stripping some attrs, and crushing the markup.  Not a
+general-purpose SVG crusher, because the file won't work as normal and must be embeded in a HTML DOM.
 
 
 ---
