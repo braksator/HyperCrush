@@ -58,8 +58,8 @@ import hypercrush from 'hypercrush';
 
 #### Step 2: Add HyperCrush to your minification tasks
 
-For Javascript that contains HTML in strings, add the default pass BEFORE your
-terser/minifier, and a 'whitespace' pass AFTER like so:
+For **Javascript that contains HTML** in strings, add the default pass BEFORE your
+terser/minifier, and a `whitespace` pass AFTER like so:
 ```javascript
 
     .pipe(hypercrush())
@@ -68,13 +68,24 @@ terser/minifier, and a 'whitespace' pass AFTER like so:
 
 ```
 
-For plain HTML, add an 'all' pass AFTER your minifier:
+For **plain HTML**, add an 'all` pass AFTER your minifier:
 
 ```javascript
 
     .pipe(htmlmin({ collapseWhitespace: true }))
     .pipe(hypercrush('all'))
 
+```
+
+For **SVG Files** do an `svg` pass AND and then an `all` pass:
+
+```javascript
+gulp.task('svg', function () {
+  return gulp.src('./src/img/svg/*.svg')
+    .pipe(hypercrush('svg'))
+    .pipe(hypercrush('all'))
+    .pipe(gulp.dest('./img/svg'));
+});
 ```
 
 ## `mode` Parameter
@@ -97,6 +108,9 @@ The `mode` parameter controls the optimizations applied to the input files. It c
 
 ### **`all`**
 - Includes all optimizations from `whitespace` and `default`.
+
+### **`svg`**
+- Specific optimizations for stripping SVG files.  It is recommended to also run an `all` pass afterwards.
 
 
 ---
