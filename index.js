@@ -23,13 +23,12 @@ function hypercrushCode(code, mode = 'all') {
       .replace(/>\s+</g, '><') // Remove spaces between tags - Gotcha: Can't rely on whitespace between tags for styling
       .replace(/(<[a-zA-Z][^>]*>)\s+/g, '$1') // Remove whitespace after opening tags
       .replace(/\s+(<\/[a-zA-Z]+>)/g, '$1') // Remove whitespace before closing tags
-      .replace(/(\w+)="([^"\s]+)(?="(?!\/>))"/g, (m, k, v) => `${k}=${v}`) // Remove " around attrs where possible (but not if followed by self-close)
+      .replace(/<[^>]+>/g, tag => tag.replace(/(\w+)="([^"\s]+)(?="(?!\/>))"/g, (m, k, v) => `${k}=${v}`)) // Remove " around attrs where possible (but not if followed by self-close)
       .replace(/"\s+(?=\s*[\w-]+=|\s*\/?>)/g, '"') // Remove spaces **after** a closing quote (but not if followed by self-close)
       .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
       .replace(/\s*(["'])\s*\/>/g, '$1/>') // Remove space only between quote and />
       .replace(/(\S)\s*\/>/g, '$1 />') // Ensure space before /> if no quote
       .replace(/(?<=<[^>]+)\s+(?=>)/g, ''); // Remove space before > in tags
-
   }
   if (mode == 'svg') {
     let svgTagMatch = code.match(/<svg[^>]*>[\s\S]*<\/svg>/);
