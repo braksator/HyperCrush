@@ -19,7 +19,7 @@ function hypercrushCode(code, mode = 'all') {
   if (mode == 'default' || mode == 'all') {
     code = code
       .replace(/\s*\/>/g, ' />') // Add a space before the end of self-closing tags (will be removed later)
-      .replace(/(<\w+[^>]*\b\w+=['"]?)0\.(\d)/g, '$1.$2') // Remove leading zero for decimals in attribute values inside tags
+      .replace(/(<\w+[^>]*\b\w+=(['"]?))(-?)0\.(\d+)(?=\2(?:\s|\/?>))/g, '$1$3.$4') // Remove leading zero for decimals in attribute values inside tags (whole value only, so "0.5-notes.html" isn't corrupted)
       .replace(/>\s+</g, '><') // Remove spaces between tags - Gotcha: Can't rely on whitespace between tags for styling
       .replace(/(<[a-zA-Z][^>]*>)\s+/g, '$1') // Remove whitespace after opening tags
       .replace(/\s+(<\/[a-zA-Z]+>)/g, '$1') // Remove whitespace before closing tags
